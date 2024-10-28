@@ -1,0 +1,28 @@
+{
+  "name": "MMM-Howest-Resto",
+  "version": "1.0.0",
+  "description": "Public Howest weekly menu of a specific resto module for MagicMirror².",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaartenGVS/MMM-Howest-Resto"
+  },
+  "keywords": [
+    "magic mirror 2",
+    "smart mirror",
+    "resto",
+    "Howest",
+    "Belgium"
+  ],
+  "author": {
+    "name": "MaartenGVS",
+    "url": "https://github.com/MaartenGVS/"
+  },
+  "contributors": [
+    "https://github.com/MaartenGVS/MMM-Howest-Resto/graphs/contributors"
+  ],
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/MaartenGVS/MMM-Howest-Resto/issues"
+  },
+  "homepage": "https://github.com/MaartenGVS/MMM-Howest-Resto"
+}
