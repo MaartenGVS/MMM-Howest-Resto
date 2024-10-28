@@ -1,9 +1,10 @@
 # MMM-Howest-Resto
 Showing the weekly menu of a specific resto at Howest University of Applied Sciences
+
 This module is an extension of the [MagicMirror² project](https://github.com/MichMich/MagicMirror).
 
 ## Screenshots
-![Connections](https://github.com/Jan-Bart/MMM-NMBS-Connection/blob/master/screenshots/screenshot.png)
+![Connections](./screenshots/screenshot.png)
 
 ## Installation
 1. Navigate into your MagicMirror's modules folder
@@ -30,11 +31,9 @@ Sample configuration entry for your `~/MagicMirror/config/config.js`:
 
 The following properties can be configured:
 
-| Key                 | Description                                    | Default         | Example         |
-| ------------------- |------------------------------------------------|:---------------:|:---------------:|
-| resto                | Departure stationname or ID                    | RSS1             'GKG', 'PENTA', 'RSS', 'RSS1', 'SIC', 'SJS', 'TS'
-
-
+| Key   | Description                                 | Default |                      Example                      |
+|-------|---------------------------------------------|:-------:|:-------------------------------------------------:|
+| resto | The abbreviation of a specific Howest resto |  RSS1   | 'GKG', 'PENTA', 'RSS', 'RSS1', 'SIC', 'SJS', 'TS' |
 
 ## Report bugs
-You can report bugs here: [https://github.com/Jan-Bart/MMM-NMBS-Connection/issues](https://github.com/Jan-Bart/MMM-NMBS-Connection/issues)
+You can report bugs here: [https://github.com/MaartenGVS/MMM-Howest-Resto/issues](https://github.com/MaartenGVS/MMM-Howest-Resto/issues)
