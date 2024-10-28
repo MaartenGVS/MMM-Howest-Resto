@@ -1,0 +1,46 @@
+.MMM-Howest-Resto {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-left: 0;
+    padding-right: 10px;
+    font-size: var(--font-size-small);
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.menu-header th {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    padding: 10px;
+}
+
+
+.menu-row td {
+    padding: 8px 12px;
+    text-align: left;
+    color: #fff;
+}
+
+.menu-day {
+    font-weight: bold;
+    color: white;
+}
+
+.menu-date {
+    color: #cfcfcf;
+    font-style: italic;
+}
+
+.menu-items {
+    color: #ddd;
+    font-style: italic;
+}
+

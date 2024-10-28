@@ -1,8 +1,8 @@
 import argparse
+import json
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
-
 
 days = {
     'nl': ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag'],
@@ -43,10 +43,12 @@ class SeleniumDriver:
                 'items': items_nl if language == "nl" else items_en
             }
 
-        return menu_data
+        return json.dumps(menu_data)
 
     def close(self):
         self.driver.quit()
+
+selenium_driver = SeleniumDriver()
 
 parser = argparse.ArgumentParser(description="Fetch the weekly menu for a specified restaurant and language.")
 parser.add_argument("--resto", type=str, required=True, help="The restaurant code (e.g., GKG, PENTA)")
@@ -54,10 +56,8 @@ parser.add_argument("--language", type=str, choices=['nl', 'en'], required=True,
 
 args = parser.parse_args()
 
-selenium_driver = SeleniumDriver()
-
 try:
-    menu = selenium_driver.fetch_menu("RSS1", "nl")
+    menu = selenium_driver.fetch_menu(args.resto, args.language)
     print(menu)
 
 finally:
