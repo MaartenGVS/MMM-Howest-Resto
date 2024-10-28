@@ -7,7 +7,8 @@
 Module.register("MMM-Howest-Resto", {
 
     defaults: {
-        resto: "RSS1"
+        resto: "RSS1",
+        language: "nl",
     },
     getScripts: function () {
         return ["moment.js"];
@@ -26,9 +27,7 @@ Module.register("MMM-Howest-Resto", {
 
         this.loaded = false;
         this.menu = "Loading...";
-        setTimeout(() => {
-            this.updateMenu();
-        }, 30000);
+        this.updateMenu();
     },
     getDom: function () {
         let wrapper = document.createElement("div");
@@ -43,8 +42,19 @@ Module.register("MMM-Howest-Resto", {
     },
 
     updateMenu: function () {
-        this.menu = "LOADED :)";
+        this.sendSocketNotification("GET_MENU", {
+            resto: this.config.resto,
+            lang: this.config.language
+        });
         this.updateDom();
+    },
+
+    socketNotificationReceived: function (notification, payload) {
+        if (notification === "MENU") {
+            this.loaded = true;
+            this.menu = payload; // this.createMenu(payload);
+            this.updateDom();
+        }
     },
 
 });
