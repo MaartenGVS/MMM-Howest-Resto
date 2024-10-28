@@ -12,12 +12,13 @@ module.exports = NodeHelper.create({
     },
     getMenu: function (payload) {
         const self = this;
-        exec('python' + __dirname + `scraper/howest-menu.py --resto ${payload.resto} --language ${payload.lang}`, (error, stdout, stderr) => {
+        exec('python ' + __dirname + `/scraper/howest-menu.py --resto ${payload.resto} --language ${payload.lang}`, (error, stdout, stderr) => {
             if (error) {
+                self.sendSocketNotification("ERROR");
                 console.error(`exec error: ${error}`);
                 return;
             }
-            self.sendSocketNotification("MENU", stdout);
+            self.sendSocketNotification("MENU_FETCHED", stdout);
         });
     }
 });
