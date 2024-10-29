@@ -1,46 +1,26 @@
-.MMM-Howest-Resto {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding-left: 0;
-    padding-right: 10px;
-    font-size: var(--font-size-small);
-    font-family: Arial, sans-serif;
-    color: white;
-}
-
-.menu-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 15px 0;
-}
-
-.menu-header th {
-    font-weight: bold;
-    text-transform: uppercase;
-    color: white;
-    padding: 10px;
-}
-
-
-.menu-row td {
-    padding: 8px 12px;
+.MMM-Howest-Resto .menu-day-container {
+    line-height: 1.50;
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    border-bottom: solid 1px #222;
+    position: relative;
     text-align: left;
+}
+
+.MMM-Howest-Resto .menu-day-container .menu-day-details {
     color: #fff;
 }
 
-.menu-day {
-    font-weight: bold;
-    color: white;
+
+.MMM-Howest-Resto header {
+    justify-content: start;
+    align-items: center;
 }
 
-.menu-date {
-    color: #cfcfcf;
-    font-style: italic;
+.MMM-Howest-Resto svg {
+    width: 100px;
+    height: 50px;
+    margin-bottom: -21px;
+    margin-left: -11px;
 }
-
-.menu-items {
-    color: #ddd;
-    font-style: italic;
-}
-
