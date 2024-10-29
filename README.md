@@ -3,8 +3,8 @@ Showing the weekly menu of a specific resto at Howest University of Applied Scie
 
 This module is an extension of the [MagicMirror² project](https://github.com/MichMich/MagicMirror).
 
-## Screenshots
-![Howest Resto Screenshot](./screenshots/screenshot.png)
+## Screenshot
+![Howest Resto Screenshot](./screenshots/img.png)
 
 ## Installation
 1. Navigate into your MagicMirror's modules folder
