@@ -44,7 +44,7 @@ Module.register("MMM-Howest-Resto", {
 
     getHeader() {
         const title = "Howest Resto";
-        const svg = this.getSVG();
+        const svg = this.getHowestLogoSVG();
         return svg + title;
     },
 
@@ -76,20 +76,18 @@ Module.register("MMM-Howest-Resto", {
             const dayDetails = document.createElement("span");
             dayDetails.className = "menu-day-details";
 
-            if (this.menuData[day].items.length === 0) {
-                dayDetails.innerHTML = day + ": " + `<span class="dimmed">No menu available</span>`;
-                dayContainer.appendChild(dayDetails);
-            } else {
-                dayDetails.innerHTML = day + ": " + this.menuData[day].items.join(", ");
-                dayContainer.appendChild(dayDetails);
-            }
+            dayDetails.innerHTML = this.menuData[day].items.length === 0
+                ? day + ": " + `<span class="dimmed">No menu available</span>`
+                : day + ": " + this.menuData[day].items.join(", ");
+
+            dayContainer.appendChild(dayDetails);
             wrapper.appendChild(dayContainer);
         }
 
         return wrapper;
     },
 
-    getSVG() {
+    getHowestLogoSVG() {
         return `
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Laag_1" x="0px" y="0px" viewBox="0 0 281.4 144.1" style="enable-background:new 0 0 281.4 144.1;" xml:space="preserve">
         <style type="text/css">
