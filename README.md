@@ -9,7 +9,7 @@ This module is an extension of the [MagicMirror² project](https://github.com/Mi
 ## Installation
 1. Navigate into your MagicMirror's modules folder
 2. Execute: `git clone https://github.com/MaartenGVS/MMM-Howest-Resto`
-3. Navigate to the MMM-Screencast directory: cd MMM-Howest-Resto`
+3. Navigate to the MMM-Howest-Resto directory: cd MMM-Howest-Resto`
 4. Install the dependencies: npm install
 5. Add [config](https://github.com/MaartenGVS/MMM-Howest-Resto#configuration)
 6. Done
