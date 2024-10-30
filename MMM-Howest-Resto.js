@@ -2,11 +2,17 @@ Module.register("MMM-Howest-Resto", {
 
     defaults: {
         resto: "GKG",
-        language: "en",
     },
 
     getScripts: function () {
         return ["moment.js"];
+    },
+
+    getTranslations() {
+        return {
+            en: "translations/en.json",
+            nl: "translations/nl.json",
+        }
     },
 
     getStyles: function () {
@@ -16,7 +22,6 @@ Module.register("MMM-Howest-Resto", {
     start: function () {
         Log.info("Starting module: " + this.name);
 
-        this.firstFetch = false;
         this.loaded = false;
         this.updateMenu(1000);
     },
@@ -24,9 +29,8 @@ Module.register("MMM-Howest-Resto", {
     updateMenu: function () {
         this.sendSocketNotification("GET_MENU", {
             resto: this.config.resto,
-            lang: this.config.language
+            lang: config.language
         });
-        this.firstFetch = true;
         this.updateDom(1000);
     },
 
@@ -53,21 +57,15 @@ Module.register("MMM-Howest-Resto", {
         wrapper.className = "MMM-Howest-Resto";
 
         if (this.troubles) {
-            wrapper.innerHTML = "Error fetching menu";
-            return wrapper;
-        }
-
-        if (!this.firstFetch) {
-            wrapper.innerHTML = "Scraping menu...";
+            wrapper.innerHTML = this.translate("GENERAL_ERROR");
             return wrapper;
         }
 
         if (!this.loaded) {
-            wrapper.innerHTML = "Loading...";
+            wrapper.innerHTML = this.translate("LOADING");
             wrapper.className = "dimmed light small";
             return wrapper;
         }
-
 
         for (const day in this.menuData) {
             const dayContainer = document.createElement("div");
@@ -76,9 +74,11 @@ Module.register("MMM-Howest-Resto", {
             const dayDetails = document.createElement("span");
             dayDetails.className = "menu-day-details";
 
-            dayDetails.innerHTML = this.menuData[day].items.length === 0
-                ? day + ": " + `<span class="dimmed">No menu available</span>`
-                : day + ": " + this.menuData[day].items.join(", ");
+            if (this.menuData[day].items.length === 0) {
+                dayDetails.innerHTML = day + ": " + `<span class="dimmed">${this.translate("NO_MENU_AVAILABLE")}</span>`;
+            } else {
+                dayDetails.innerHTML = day + ": " + this.menuData[day].items.join(", ");
+            }
 
             dayContainer.appendChild(dayDetails);
             wrapper.appendChild(dayContainer);
