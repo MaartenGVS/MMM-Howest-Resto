@@ -4,10 +4,6 @@ Module.register("MMM-Howest-Resto", {
         resto: "GKG",
     },
 
-    getScripts: function () {
-        return ["moment.js"];
-    },
-
     getTranslations() {
         return {
             en: "translations/en.json",
@@ -23,7 +19,7 @@ Module.register("MMM-Howest-Resto", {
         Log.info("Starting module: " + this.name);
 
         this.loaded = false;
-        this.updateMenu(1000);
+        this.updateMenu();
     },
 
     updateMenu: function () {
@@ -34,15 +30,26 @@ Module.register("MMM-Howest-Resto", {
         this.updateDom(1000);
     },
 
-    socketNotificationReceived: function (notification, payload) {
-        if (notification === "MENU_FETCHED") {
-            this.loaded = true;
-            this.menuData = JSON.parse(payload)
-            this.updateDom();
+    notificationReceived: function (notification, payload, sender) {
+        switch (notification) {
+            case "CHANGE_HOWEST_RESTO":
+                this.config.resto = payload;
+                this.updateMenu();
+                break;
+        }
+    },
 
-        } else if (notification === "ERROR") {
-            this.troubles = true;
-            this.updateDom();
+    socketNotificationReceived: function (notification, payload) {
+        switch (notification) {
+            case "MENU_FETCHED":
+                this.loaded = true;
+                this.menuData = JSON.parse(payload)
+                this.updateDom();
+                break;
+            case "ERROR":
+                this.troubles = true;
+                this.updateDom();
+                break;
         }
     },
 
@@ -53,40 +60,31 @@ Module.register("MMM-Howest-Resto", {
     },
 
     getDom: function () {
-        let wrapper = document.createElement("div");
-        wrapper.className = "MMM-Howest-Resto";
-
         if (this.troubles) {
-            wrapper.innerHTML = this.translate("GENERAL_ERROR");
-            return wrapper;
+            return this.createWrapper("MMM-Howest-Resto", this.translate("GENERAL_ERROR"));
         }
 
         if (!this.loaded) {
-            wrapper.innerHTML = this.translate("LOADING");
-            wrapper.className = "dimmed light small";
-            return wrapper;
+            return this.createWrapper("dimmed light small", this.translate("LOADING"));
         }
 
-        for (const day in this.menuData) {
+        console.log(this.menuData);
+
+        const maxWidth = this.calculateMaxWidth();
+        const wrapper = this.createWrapper();
+
+        Object.keys(this.menuData).forEach((day) => {
             const dayContainer = document.createElement("div");
             dayContainer.className = "menu-day-container";
 
-            const dayDetails = document.createElement("span");
-            dayDetails.className = "menu-day-details";
-
-            if (this.menuData[day].items.length === 0) {
-                dayDetails.innerHTML = day + ": " + `<span class="dimmed">${this.translate("NO_MENU_AVAILABLE")}</span>`;
-            } else {
-                dayDetails.innerHTML = day + ": " + this.menuData[day].items.join(", ");
-            }
-
+            const dayDetails = this.createDayDetails(day, maxWidth);
             dayContainer.appendChild(dayDetails);
+
             wrapper.appendChild(dayContainer);
-        }
+        });
 
         return wrapper;
     },
-
     getHowestLogoSVG() {
         return `
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Laag_1" x="0px" y="0px" viewBox="0 0 281.4 144.1" style="enable-background:new 0 0 281.4 144.1;" xml:space="preserve">
@@ -122,5 +120,48 @@ Module.register("MMM-Howest-Resto", {
             <path d="M231.5,62.9h-2.1c-2.6,0-4.2-1.6-4.2-4.2c0-2.4,1.8-4.2,4.2-4.2h2.1v-5.7c0-3.2,2-5.3,4.8-5.3c2.8,0,4.8,2.1,4.8,5.3v5.7   h2.7c2.5,0,4.6,1.1,4.6,4.2c0,3-2.1,4.2-4.6,4.2h-2.7v22c0,3.2-2,5.3-4.8,5.3c-2.8,0-4.8-2.1-4.8-5.3V62.9z" fill="#ffffff"/>
         </g>
         </svg>`
+    },
+
+
+    createWrapper(className, content) {
+        const wrapper = document.createElement("div");
+        wrapper.className = className || "MMM-Howest-Resto";
+        if (content) wrapper.innerHTML = content;
+        return wrapper;
+    },
+
+    calculateMaxWidth() {
+        return Object.keys(this.menuData).reduce((max, day) => {
+            const text = `${day}: ${
+                this.menuData[day].items.length === 0
+                    ? this.translate("NO_MENU_AVAILABLE")
+                    : this.menuData[day].items.join(", ")
+            }`;
+
+            const tempSpan = document.createElement("span");
+            tempSpan.style.visibility = "hidden";
+            tempSpan.style.whiteSpace = "nowrap";
+            tempSpan.innerHTML = text;
+
+            document.body.appendChild(tempSpan);
+            const width = tempSpan.offsetWidth;
+            document.body.removeChild(tempSpan);
+
+            return Math.max(max, width);
+        }, 0);
+    },
+
+    createDayDetails(day, maxWidth) {
+        const dayDetails = document.createElement("span");
+        dayDetails.className = "menu-day-details";
+
+        dayDetails.innerHTML =
+            `${day}: ` +
+            (this.menuData[day].items.length === 0
+                ? `<span class="dimmed">${this.translate("NO_MENU_AVAILABLE")}</span>`
+                : this.menuData[day].items.join(", "));
+        dayDetails.style.minWidth = `${maxWidth}px`;
+
+        return dayDetails;
     }
 });
